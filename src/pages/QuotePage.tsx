@@ -45,7 +45,9 @@ class _QuotePage extends React.Component<PageProps, State> {
   }
 
   ionViewWillLeave() {
-    this.setState({ quote: '' });
+    this.setState({ quote: '' }, () => {
+      this.fitText();
+    });
   }
 
   getQuote() {
