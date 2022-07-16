@@ -99,7 +99,7 @@ class _QuotePage extends React.Component<PageProps, State> {
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle className='uiFont'>壹零捌自在語 No. {+this.props.match.params.id}</IonTitle>
+            <IonTitle className='uiFont'>No. {+this.props.match.params.id}</IonTitle>
 
             <IonButton fill="clear" slot='end' onClick={e => {
               this.addBookmarkHandler();

@@ -299,23 +299,6 @@ class _SettingsPage extends React.Component<PageProps, StateProps> {
                 </div>
               </div>
             </IonItem>
-            <IonItem>
-              <div tabIndex={0}></div>{/* Workaround for macOS Safari 14 bug. */}
-              <IonIcon icon={text} slot='start' />
-              <div className="contentBlock">
-                <IonLabel className='ion-text-wrap uiFont'>{Globals.appSettings['fontSize']}: <span className='textFont'>{this.props.settings.fontSize}</span></IonLabel>
-                <IonRange min={10} max={128} pin={true} snaps={true} value={this.props.settings.fontSize} onIonChange={e => {
-                  this.props.dispatch({
-                    type: "SET_KEY_VAL",
-                    key: 'fontSize',
-                    val: +e.detail.value,
-                  });
-                  setTimeout(() => {
-                    Globals.updateCssVars(this.props.settings);
-                  }, 0);
-                }} />
-              </div>
-            </IonItem>
             {/*
             <IonItem>
               <div tabIndex={0}></div>{/* Workaround for macOS Safari 14 bug. * /}

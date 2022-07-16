@@ -9,8 +9,6 @@ import Globals from '../Globals';
 import { Settings } from '../models/Settings';
 import { TmpSettings } from '../models/TmpSettings';
 
-const quotes: string[] = require('../sy108q.json');
-
 enum GameState {
   START,
   END,
@@ -69,8 +67,8 @@ class _QuotePage extends React.Component<PageProps, State> {
             <div className='uiFont' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0px 20px' }}>
 
               <div style={{ padding: '20px 0px' }}>
-                <IonButton className='uiFontX2' fill='outline' shape='round' size='large' onClick={() => {
-                  const quoteId = Math.floor(Math.random() * quotes.length);
+                <IonButton style={{ fontSize: `${this.props.settings.uiFontSize * 1.5}px` }} fill='outline' shape='round' size='large' onClick={() => {
+                  const quoteId = Math.floor(Math.random() * Globals.quotes.length);
                   this.props.history.push(`${Globals.pwaUrl}/quote/quote/${quoteId}`);
                 }}>隨選自在語</IonButton>
               </div>
