@@ -43,58 +43,60 @@ class _QuotePage extends React.Component<PageProps, State> {
   }
 
   ionViewWillEnter() {
-    this.setState({ quote: this.getQuote() }, () => {
+    // First, reset quote container.
+    this.setState({ quote: ' ' }, () => {
       this.fitText();
+      
+      this.setState({ quote: this.getQuote() }, () => {
+        this.fitText();
 
-      let qouteReads = JSON.parse(JSON.stringify(this.props.settings.qouteReads)) as boolean[];
-      qouteReads[+this.props.match.params.id - 1] = true;
+        let qouteReads = JSON.parse(JSON.stringify(this.props.settings.qouteReads)) as boolean[];
+        qouteReads[+this.props.match.params.id - 1] = true;
 
-      const quoteReadsCount = qouteReads.reduce((prev, curr) => prev + (curr ? 1 : 0), 0);
+        const quoteReadsCount = qouteReads.reduce((prev, curr) => prev + (curr ? 1 : 0), 0);
 
-      [
-        {
-          unlockThreshold: 27,
-          isUnlock: this.props.settings.is27quotesRead,
-          achievemnt: 'is27quotesRead',
-        },
-        {
-          unlockThreshold: 54,
-          isUnlock: this.props.settings.is54quotesRead,
-          achievemnt: 'is54quotesRead',
-        },
-        {
-          unlockThreshold: 81,
-          isUnlock: this.props.settings.is81quotesRead,
-          achievemnt: 'is81quotesRead',
-        },
-        {
-          unlockThreshold: 108,
-          isUnlock: this.props.settings.is108quotesRead,
-          achievemnt: 'is108quotesRead',
-        },
-      ].forEach(a => {
-        if (a.unlockThreshold <= quoteReadsCount && !a.isUnlock) {
-          this.props.dispatch({
-            type: "SET_KEY_VAL",
-            key: a.achievemnt,
-            val: true,
-          });
-          this.setState({ showUnlockToast: true, unlockToastMessage: `解鎖 - 已讀 ${a.unlockThreshold} 則自在語` });
-        }
-      });
+        [
+          {
+            unlockThreshold: 27,
+            isUnlock: this.props.settings.is27quotesRead,
+            achievemnt: 'is27quotesRead',
+          },
+          {
+            unlockThreshold: 54,
+            isUnlock: this.props.settings.is54quotesRead,
+            achievemnt: 'is54quotesRead',
+          },
+          {
+            unlockThreshold: 81,
+            isUnlock: this.props.settings.is81quotesRead,
+            achievemnt: 'is81quotesRead',
+          },
+          {
+            unlockThreshold: 108,
+            isUnlock: this.props.settings.is108quotesRead,
+            achievemnt: 'is108quotesRead',
+          },
+        ].forEach(a => {
+          if (a.unlockThreshold <= quoteReadsCount && !a.isUnlock) {
+            this.props.dispatch({
+              type: "SET_KEY_VAL",
+              key: a.achievemnt,
+              val: true,
+            });
+            this.setState({ showUnlockToast: true, unlockToastMessage: `解鎖 - 已讀 ${a.unlockThreshold} 則自在語` });
+          }
+        });
 
-      this.props.dispatch({
-        type: "SET_KEY_VAL",
-        key: 'qouteReads',
-        val: qouteReads,
+        this.props.dispatch({
+          type: "SET_KEY_VAL",
+          key: 'qouteReads',
+          val: qouteReads,
+        });
       });
     });
   }
 
   ionViewWillLeave() {
-    this.setState({ quote: '' }, () => {
-      this.fitText();
-    });
   }
 
   getQuote() {

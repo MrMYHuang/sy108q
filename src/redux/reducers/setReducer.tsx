@@ -12,7 +12,7 @@ function updateUi(newSettings: Settings) {
 
 // Used to store settings. They will be saved to file.
 export default function reducer(state = { ...defaultSettings }, action: any) {
-  var newSettings = { ...state } as any;
+  let newSettings: Settings = JSON.parse(JSON.stringify(state));
   switch (action.type) {
     case "LOAD_SETTINGS":
       newSettings = JSON.parse(localStorage.getItem(Globals.storeFile)!).settings;
@@ -21,6 +21,7 @@ export default function reducer(state = { ...defaultSettings }, action: any) {
     case "SET_KEY_VAL":
       var key = action.key;
       var val = action.val;
+      (newSettings as any)[key] = val;
       switch (key) {
         case 'theme': {
           document.body.classList.forEach((val) => {
@@ -31,9 +32,12 @@ export default function reducer(state = { ...defaultSettings }, action: any) {
           document.body.classList.toggle(`theme${val}`, true);
           break;
         }
+        case 'useFontKai':
+        case 'uiFontSize': {
+          Globals.updateCssVars(newSettings);
+          break;
+        }
       }
-
-      newSettings[key] = val;
       localStorage.setItem(Globals.storeFile, JSON.stringify({ settings: newSettings }));
       break;
     case "ADD_BOOKMARK":

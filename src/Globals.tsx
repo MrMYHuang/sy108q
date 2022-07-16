@@ -1,13 +1,88 @@
 import { isPlatform, IonLabel } from '@ionic/react';
+import axios from 'axios';
+import IndexedDbFuncs from './IndexedDbFuncs';
 import { IDictItem } from './models/DictItem';
 
 const pwaUrl = process.env.PUBLIC_URL || '';
 const bugReportApiUrl = 'https://vh6ud1o56g.execute-api.ap-northeast-1.amazonaws.com/bugReportMailer';
+let twKaiFontsCache: { [key: string]: FontFace } = {};
+const twKaiFonts = ['Kai', 'Kai', 'Kai', 'KaiExtB', 'KaiExtB', 'KaiExtB', 'KaiPlus', 'KaiPlus'];
+const twKaiFontKeys = ['twKaiFont-1', 'twKaiFont-2', 'twKaiFont-3', 'twKaiExtBFont-1', 'twKaiExtBFont-2', 'twKaiExtBFont-3', 'twKaiPlusFont-1', 'twKaiPlusFont-2',];
+const twKaiFontPaths = [`${pwaUrl}/assets/TW-Kai-98_1-1.woff2`, `${pwaUrl}/assets/TW-Kai-98_1-2.woff2`, `${pwaUrl}/assets/TW-Kai-98_1-3.woff2`, `${pwaUrl}/assets/TW-Kai-Ext-B-98_1-1.woff2`, `${pwaUrl}/assets/TW-Kai-Ext-B-98_1-2.woff2`, `${pwaUrl}/assets/TW-Kai-Ext-B-98_1-3.woff2`, `${pwaUrl}/assets/TW-Kai-Plus-98_1-1.woff2`, `${pwaUrl}/assets/TW-Kai-Plus-98_1-2.woff2`,];
 
 const sy108qDb = 'sy108qDb';
 let log = '';
 
 var dictItems: Array<IDictItem> = [];
+const axiosInstance = axios.create({
+  timeout: 10000,
+});
+
+function twKaiFontNeedUpgrade() {
+  return +(localStorage.getItem('twKaiFontVersion') ?? 1) < IndexedDbFuncs.twKaiFontVersion;
+}
+
+async function loadTwKaiFonts(progressCallback: Function | null = null, win: Window = window) {
+  let forceUpdate = false;
+  if (twKaiFontNeedUpgrade()) {
+    localStorage.setItem('twKaiFontVersion', IndexedDbFuncs.twKaiFontVersion + "");
+    forceUpdate = true;
+  }
+
+  let finishCount = 0;
+  let load: Promise<any>[] = [];
+  for (let i = 0; i < twKaiFonts.length; i++) {
+    load.push(loadTwKaiFont(
+      twKaiFonts[i],
+      twKaiFontKeys[i],
+      twKaiFontPaths[i],
+      forceUpdate,
+    ).then(
+      // eslint-disable-next-line no-loop-func
+      (fontFace) => {
+        win.document.fonts.add(fontFace);
+        //console.log(`[Main] ${twKaiFontKeys[i]} font loading success!`);
+        finishCount += 1;
+        progressCallback && progressCallback(finishCount / twKaiFonts.length);
+      }));
+  }
+  return Promise.all(load);
+}
+
+async function loadTwKaiFont(font: string, key: string, path: string, forceUpdate: boolean) {
+  const fontFaceCache = twKaiFontsCache[key];
+  const updateFont = () => {
+    return axiosInstance.get(`${window.location.origin}${path}`, {
+      responseType: 'arraybuffer',
+      timeout: 0,
+    }).then(res => {
+      const fontData = res.data;
+      IndexedDbFuncs.saveFile(key, fontData, IndexedDbFuncs.fontStore);
+      localStorage.setItem('twKaiFontVersion', IndexedDbFuncs.twKaiFontVersion + "");
+      return new window.FontFace(font, fontData)
+    });
+  };
+
+  let updateFontOrNot: Promise<FontFace>;
+  if (!forceUpdate) {
+    if (fontFaceCache) {
+      updateFontOrNot = Promise.resolve(fontFaceCache);
+    } else {
+      updateFontOrNot = (IndexedDbFuncs.getFile<ArrayBuffer>(key, IndexedDbFuncs.fontStore)).then((data) => {
+        return new window.FontFace(font, data);
+      }).catch(err => {
+        return updateFont();
+      });
+    }
+  } else {
+    updateFontOrNot = updateFont();
+  }
+
+  return updateFontOrNot.then((fontFace) => {
+    twKaiFontsCache[key] = fontFace;
+    return fontFace.load();
+  })
+}
 
 async function clearAppData() {
   localStorage.clear();
@@ -143,6 +218,12 @@ const Globals = {
   enableAppLog,
   disableAppLog,
   sy108qDb,
+  twKaiFontNeedUpgrade,
+  twKaiFontsCache,
+  twKaiFonts,
+  twKaiFontKeys,
+  loadTwKaiFonts,
+  axiosInstance,
   appSettings: {
     'theme': '佈景主題',
     'uiFontSize': 'UI 字型大小',
@@ -168,7 +249,7 @@ const Globals = {
     });
   },
   updateCssVars: (settings: any) => {
-    document.documentElement.style.cssText = `--ui-font-size: ${settings.uiFontSize}px`
+    document.documentElement.style.cssText = `--ion-font-family: ${settings.useFontKai ? `Times, ${twKaiFonts.join(', ')}, Noto Sans CJK TC` : 'Times, Heiti TC, Noto Sans CJK TC'}; --ui-font-size: ${settings.uiFontSize}px`
   },
   isMacCatalyst,
   isTouchDevice: () => {

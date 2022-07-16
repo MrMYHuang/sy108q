@@ -6,6 +6,7 @@ export interface Settings {
     hasAppLog: boolean;
     theme: number;
     uiFontSize: number;
+    useFontKai: boolean;
     voiceURI: string | null;
     speechRate: number;
     bookmarks: Bookmark[];
@@ -21,6 +22,7 @@ export const defaultSettings = {
     hasAppLog: true,
     theme: 2,
     uiFontSize: 32,
+    useFontKai: false,
     voiceURI: null,
     speechRate: 0.8,
     bookmarks: [],

@@ -43,6 +43,7 @@ import { Settings } from './models/Settings';
 import QuotePage from './pages/QuotePage';
 import QuoteSelectPage from './pages/QuoteSelectPage';
 import RecordPage from './pages/RecordPage';
+import IndexedDbFuncs from './IndexedDbFuncs';
 
 const electronBackendApi: any = (window as any).electronBackendApi;
 
@@ -149,12 +150,33 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
       });
     }
     Globals.updateCssVars(this.props.settings);
+    
+    let showToastInit = false;
+    let toastMessageInit = '';
+    IndexedDbFuncs.open().then(() => {
+      if (Globals.twKaiFontNeedUpgrade() && this.props.settings.useFontKai) {
+        this.props.dispatch({
+          type: "SET_KEY_VAL",
+          key: 'useFontKai',
+          val: false
+        });
+        localStorage.setItem('twKaiFontVersion', "0");
+        let settingsTemp = this.props.settings;
+        settingsTemp.useFontKai = false;
+        Globals.updateCssVars(settingsTemp);
+
+        showToastInit = true;
+        toastMessageInit = '楷書字型已更新，請至設定頁開啟楷書！';
+      } else if (this.props.settings.useFontKai) {
+        Globals.loadTwKaiFonts();
+      }
+    });
 
     this.state = {
       showUpdateAlert: false,
       showRestoreAppSettingsToast: (queryParams.settings != null && this.originalAppSettingsStr != null) || false,
-      showToast: false,
-      toastMessage: '',
+      showToast: showToastInit,
+      toastMessage: toastMessageInit,
     };
 
     serviceWorkCallbacks.onUpdate = (registration: ServiceWorkerRegistration) => {
