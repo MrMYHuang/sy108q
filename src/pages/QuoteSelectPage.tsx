@@ -56,19 +56,8 @@ class _QuotePage extends React.Component<PageProps, State> {
         </IonHeader>
         <IonContent>
 
-          <div className='contentCenter'>
-            <div className='uiFont' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0px 20px' }}>
-
-              <div style={{ padding: '20px 0px' }}>
-                <IonButton style={{ fontSize: `${this.props.settings.uiFontSize * 1.5}px` }} fill='outline' shape='round' size='large' onClick={() => {
-                  const quoteId = Math.floor(Math.random() * Globals.quotes.length) + 1;
-                  this.props.history.push(`${Globals.pwaUrl}/quote/quote/${quoteId}`);
-                }}>隨選自在語</IonButton>
-              </div>
-
-              <div className='uiFont'>---------- or ----------</div>
-
-
+          <div className='uiFont' style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', textAlign: 'center', alignItems: 'center', justifyContent: 'space-between', padding: '0px 20px' }}>
+            <div>
               <div style={{ padding: '20px 20px' }}>
                 <IonInput className='uiFont' inputmode='numeric' value={this.state.customQuoteId}
                   onIonChange={(ev) => {
@@ -81,6 +70,15 @@ class _QuotePage extends React.Component<PageProps, State> {
                 }}>自選自在語</IonButton>
               </div>
             </div>
+
+            <div className='uiFont'>---------- or ----------</div>
+
+            <div style={{ padding: '20px 0px' }}>
+              <IonButton style={{ fontSize: `${this.props.settings.uiFontSize * 1.5}px` }} fill='outline' shape='round' size='large' onClick={() => {
+                const quoteId = Math.floor(Math.random() * Globals.quotes.length) + 1;
+                this.props.history.push(`${Globals.pwaUrl}/quote/quote/${quoteId}`);
+              }}>隨選自在語</IonButton>
+            </div>
           </div>
 
           <IonToast
@@ -91,7 +89,7 @@ class _QuotePage extends React.Component<PageProps, State> {
             duration={2000}
           />
         </IonContent>
-      </IonPage>
+      </IonPage >
     );
   }
 };
