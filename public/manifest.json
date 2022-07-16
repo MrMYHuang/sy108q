@@ -1,0 +1,34 @@
+{
+  "short_name": "壹零捌自在語",
+  "name": "壹零捌自在語",
+  "icons": [
+    {
+      "src": "assets/icon/icon.png",
+      "type": "image/png",
+      "sizes": "1024x1024"
+    },
+    {
+      "src": "assets/icon/icon.png",
+      "type": "image/png",
+      "sizes": "1024x1024",
+      "purpose": "maskable"
+    }
+  ],
+  "scope": "/sy108q/",
+  "start_url": "/sy108q/",
+  "url_handlers": [
+    {
+      "origin": "https://myhpwa.github.io"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "成語詞典",
+      "url": "/sy108q/dictionary/search",
+      "icons": [{ "src": "assets/icon/icon.png", "sizes": "1024x1024" }]
+    }
+  ],
+  "display": "standalone",
+  "theme_color": "black",
+  "background_color": "black"
+}

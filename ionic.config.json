@@ -1,0 +1,7 @@
+{
+  "name": "sy108q",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

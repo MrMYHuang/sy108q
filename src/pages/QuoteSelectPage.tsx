@@ -1,0 +1,107 @@
+import React from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, withIonLifeCycle, IonToast, IonButton, IonIcon } from '@ionic/react';
+import { RouteComponentProps } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { shareSocial } from 'ionicons/icons';
+
+import { Bookmark } from '../models/Bookmark';
+import Globals from '../Globals';
+import { Settings } from '../models/Settings';
+import { TmpSettings } from '../models/TmpSettings';
+
+const quotes: string[] = require('../sy108q.json');
+
+enum GameState {
+  START,
+  END,
+};
+
+interface Props {
+  bookmarks: Bookmark[];
+  dispatch: Function;
+  settings: Settings;
+  tmpSettings: TmpSettings;
+}
+
+interface State {
+  quote: string;
+  gameState: GameState;
+  gameTime: number;
+  showToast: boolean;
+  toastMessage: string;
+}
+
+interface PageProps extends Props, RouteComponentProps<{
+  tab: string;
+  id: string
+  path: string;
+}> { }
+
+class _QuotePage extends React.Component<PageProps, State> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      quote: '',
+      gameState: GameState.START,
+      gameTime: 0,
+      showToast: false,
+      toastMessage: '',
+    }
+  }
+
+  render() {
+    return (
+      <IonPage>
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle className='uiFont'>壹零捌自在語</IonTitle>
+
+            <IonButton fill="clear" slot='end' onClick={e => {
+              Globals.shareByLink(this.props.dispatch, decodeURIComponent(window.location.href));
+            }}>
+              <IonIcon icon={shareSocial} slot='icon-only' />
+            </IonButton>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+
+          <div className='contentCenter'>
+            <div className='uiFont' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0px 20px' }}>
+
+              <div style={{ padding: '20px 0px' }}>
+                <IonButton className='uiFontX2' fill='outline' shape='round' size='large' onClick={() => {
+                  const quoteId = Math.floor(Math.random() * quotes.length);
+                  this.props.history.push(`${Globals.pwaUrl}/quote/quote/${quoteId}`);
+                }}>隨選自在語</IonButton>
+              </div>
+            </div>
+          </div>
+
+          <IonToast
+            cssClass='uiFont'
+            isOpen={this.state.showToast}
+            onDidDismiss={() => this.setState({ showToast: false })}
+            message={this.state.toastMessage}
+            duration={2000}
+          />
+        </IonContent>
+      </IonPage>
+    );
+  }
+};
+
+const mapStateToProps = (state: any /*, ownProps*/) => {
+  return {
+    bookmarks: JSON.parse(JSON.stringify(state.settings.bookmarks)),
+    settings: state.settings,
+    tmpSettings: state.tmpSettings,
+  }
+};
+
+//const mapDispatchToProps = {};
+
+const QuotePage = withIonLifeCycle(_QuotePage);
+
+export default connect(
+  mapStateToProps,
+)(QuotePage);
