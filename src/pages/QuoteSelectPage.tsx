@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, withIonLifeCycle, IonToast, IonButton, IonIcon } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, withIonLifeCycle, IonToast, IonButton, IonIcon, IonInput } from '@ionic/react';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { shareSocial } from 'ionicons/icons';
@@ -8,11 +8,6 @@ import { Bookmark } from '../models/Bookmark';
 import Globals from '../Globals';
 import { Settings } from '../models/Settings';
 import { TmpSettings } from '../models/TmpSettings';
-
-enum GameState {
-  START,
-  END,
-};
 
 interface Props {
   bookmarks: Bookmark[];
@@ -23,8 +18,7 @@ interface Props {
 
 interface State {
   quote: string;
-  gameState: GameState;
-  gameTime: number;
+  customQuoteId: number;
   showToast: boolean;
   toastMessage: string;
 }
@@ -40,8 +34,7 @@ class _QuotePage extends React.Component<PageProps, State> {
     super(props);
     this.state = {
       quote: '',
-      gameState: GameState.START,
-      gameTime: 0,
+      customQuoteId: 1,
       showToast: false,
       toastMessage: '',
     }
@@ -71,6 +64,21 @@ class _QuotePage extends React.Component<PageProps, State> {
                   const quoteId = Math.floor(Math.random() * Globals.quotes.length) + 1;
                   this.props.history.push(`${Globals.pwaUrl}/quote/quote/${quoteId}`);
                 }}>隨選自在語</IonButton>
+              </div>
+
+              <div className='uiFont'>---------- or ----------</div>
+
+
+              <div style={{ padding: '20px 20px' }}>
+                <IonInput className='uiFont' inputmode='numeric' value={this.state.customQuoteId}
+                  onIonChange={(ev) => {
+                    this.setState({ customQuoteId: +(ev.target.value || 1) })
+                  }} />
+              </div>
+              <div style={{ padding: '20px 20px' }}>
+                <IonButton style={{ fontSize: `${this.props.settings.uiFontSize * 1.5}px` }} fill='outline' shape='round' size='large' onClick={() => {
+                  this.props.history.push(`${Globals.pwaUrl}/quote/quote/${this.state.customQuoteId}`);
+                }}>自選自在語</IonButton>
               </div>
             </div>
           </div>

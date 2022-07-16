@@ -15,7 +15,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import { connect, Provider } from 'react-redux';
 import queryString from 'query-string';
 import getSavedStore from './redux/store';
-import { bookmark, settings, chatbox } from 'ionicons/icons';
+import { bookmark, settings, chatbox, lockOpen } from 'ionicons/icons';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -42,6 +42,7 @@ import ShareTextModal from './components/ShareTextModal';
 import { Settings } from './models/Settings';
 import QuotePage from './pages/QuotePage';
 import QuoteSelectPage from './pages/QuoteSelectPage';
+import RecordPage from './pages/RecordPage';
 
 const electronBackendApi: any = (window as any).electronBackendApi;
 
@@ -242,6 +243,7 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
               <Route path={`${Globals.pwaUrl}/:tab(quote)/select`} render={(props: any) => <QuoteSelectPage {...props} />} exact={true} />
               <Route path={`${Globals.pwaUrl}/:tab(quote)/quote/:id`} render={(props: any) => <QuotePage {...props} />} exact={true} />
               <Route path={`${Globals.pwaUrl}/:tab(bookmarks)`} render={(props: any) => <BookmarkPage {...props} />} exact={true} />
+              <Route path={`${Globals.pwaUrl}/:tab(record)`} render={(props: any) => <RecordPage {...props} />} exact={true} />
               <Route path={`${Globals.pwaUrl}/settings`} render={(props: any) => <SettingsPage {...props} />} />
               <Route path={`${Globals.pwaUrl}/`} render={() => { return this.routeByQueryString(); }} exact={true} />
             </IonRouterOutlet>
@@ -251,6 +253,9 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
               </IonTabButton>
               <IonTabButton tab="bookmarks" href={`${Globals.pwaUrl}/bookmarks`}>
                 <IonIcon icon={bookmark} />
+              </IonTabButton>
+              <IonTabButton tab="record" href={`${Globals.pwaUrl}/record`}>
+                <IonIcon icon={lockOpen} />
               </IonTabButton>
               <IonTabButton tab="settings" href={`${Globals.pwaUrl}/settings`}>
                 <IonIcon icon={settings} />

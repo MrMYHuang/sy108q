@@ -146,7 +146,6 @@ const Globals = {
   appSettings: {
     'theme': '佈景主題',
     'uiFontSize': 'UI 字型大小',
-    'fontSize': '內容字型大小',
   } as Record<string, string>,
   fetchErrorContent: (
     <div className='contentCenter'>
@@ -169,7 +168,7 @@ const Globals = {
     });
   },
   updateCssVars: (settings: any) => {
-    document.documentElement.style.cssText = `--ui-font-size: ${settings.uiFontSize}px; --text-font-size: ${settings.fontSize}px`
+    document.documentElement.style.cssText = `--ui-font-size: ${settings.uiFontSize}px`
   },
   isMacCatalyst,
   isTouchDevice: () => {

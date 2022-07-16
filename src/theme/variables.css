@@ -232,3 +232,8 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 .progressCircleMeter {
     fill: var(--ion-color-primary);
 }
+
+.select {
+    color: white;
+    background-color: var(--ion-color-primary);
+}
