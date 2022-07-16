@@ -68,7 +68,7 @@ class _QuotePage extends React.Component<PageProps, State> {
 
               <div style={{ padding: '20px 0px' }}>
                 <IonButton style={{ fontSize: `${this.props.settings.uiFontSize * 1.5}px` }} fill='outline' shape='round' size='large' onClick={() => {
-                  const quoteId = Math.floor(Math.random() * Globals.quotes.length);
+                  const quoteId = Math.floor(Math.random() * Globals.quotes.length) + 1;
                   this.props.history.push(`${Globals.pwaUrl}/quote/quote/${quoteId}`);
                 }}>隨選自在語</IonButton>
               </div>
