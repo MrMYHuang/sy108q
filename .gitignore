@@ -4,3 +4,5 @@ build
 buildElectron/*.js
 sy108q-pwa
 *.DS_Store
+and
+win

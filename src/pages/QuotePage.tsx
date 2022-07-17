@@ -44,11 +44,11 @@ class _QuotePage extends React.Component<PageProps, State> {
 
   ionViewDidEnter() {
     // First, reset quote container.
-    this.setState({ quote: ' ' }, () => {
-      this.fitText();
+    this.setState({ quote: '' }, async () => {
+      await this.fitText();
 
-      this.setState({ quote: this.getQuote() }, () => {
-        this.fitText();
+      this.setState({ quote: this.getQuote() }, async () => {
+        await this.fitText();
 
         let qouteReads = JSON.parse(JSON.stringify(this.props.settings.qouteReads)) as boolean[];
         qouteReads[+this.props.match.params.id - 1] = true;
@@ -124,23 +124,24 @@ class _QuotePage extends React.Component<PageProps, State> {
     const n = this.state.quote.length;
     const maxTextFontSize = Math.sqrt(w * h / n);
 
-    let textFontSize = Math.floor(maxTextFontSize);
-    while (textFontSize > 12) {
-      // eslint-disable-next-line no-loop-func
-      quoteDiv.style.cssText = `font-size: ${textFontSize}px; width: ${w}px;`;
-      const ws = quoteContainer.scrollWidth - margin;
-      const hs = quoteContainer.scrollHeight - margin;
-      if (verticalMode && ws <= w) {
-        break;
-      } else if (!verticalMode && hs <= h) {
-        break
+    if (n === 0) {
+      quoteDiv.style.cssText = `font-size: 12px; width: ${w}px;`;
+    } else {
+      let textFontSize = Math.floor(maxTextFontSize);
+      while (textFontSize > 12) {
+        // eslint-disable-next-line no-loop-func
+        quoteDiv.style.cssText = `font-size: ${textFontSize}px; width: ${w}px;`;
+        const ws = quoteContainer.scrollWidth - margin;
+        const hs = quoteContainer.scrollHeight - margin;
+        if (verticalMode && ws <= w) {
+          break;
+        } else if (!verticalMode && hs <= h) {
+          break
+        }
+
+        textFontSize -= 1;
       }
-
-      textFontSize -= 1;
     }
-
-    console.log(quoteContainer.getBoundingClientRect());
-    console.log(quoteDiv.getBoundingClientRect());
   }
 
   addBookmarkHandler() {
