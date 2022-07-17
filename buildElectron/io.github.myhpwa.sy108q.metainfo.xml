@@ -23,7 +23,7 @@
   </screenshots>
   <content_rating type="oars-1.1"/>
   <releases>
-    <release version="1.0.0" date="2022-07-17"/>
+    <release version="1.0.0" date="2022-07-17">
       <description>
         <ul>
           <li>第一版。</li>
