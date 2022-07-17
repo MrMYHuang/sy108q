@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, withIonLifeCycle, IonToast, IonIcon, IonList, IonItem, IonLabel, IonListHeader } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, withIonLifeCycle, IonToast, IonIcon, IonList, IonItem, IonLabel, IonListHeader, IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/react';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { checkmarkCircleOutline, helpCircleOutline, trophy } from 'ionicons/icons';
@@ -17,6 +17,8 @@ interface Props {
 }
 
 interface State {
+  isScrollOn: boolean;
+  quoteReads: boolean[];
   showToast: boolean;
   toastMessage: string;
 }
@@ -31,9 +33,36 @@ class _RecordPage extends React.Component<PageProps, State> {
   constructor(props: any) {
     super(props);
     this.state = {
+      isScrollOn: true,
+      quoteReads: [],
       showToast: false,
       toastMessage: '',
     };
+  }
+
+  ionViewWillEnter() {
+    this.loadMoreQuotes();
+  }
+
+  page = 0;
+  rows = 20;
+  loadMoreQuotesLock = false;
+  loadMoreQuotes() {
+    if (this.loadMoreQuotesLock) {
+      return;
+    }
+    
+    this.loadMoreQuotesLock = true;
+    let newAppendQuoteReadsRangeEnd = Math.min((this.page + 1) * this.rows, Globals.quotes.length);
+    const newAppendQuoteReads = this.props.settings.qouteReads.slice(this.page * this.rows, newAppendQuoteReadsRangeEnd);
+    const newQuoteReads = [...this.state.quoteReads, ...newAppendQuoteReads];
+    this.setState({
+      isScrollOn: newQuoteReads.length < Globals.quotes.length,
+      quoteReads: newQuoteReads,
+    }, () => {
+      this.page++;
+      this.loadMoreQuotesLock = false;
+    });
   }
 
   render() {
@@ -70,9 +99,9 @@ class _RecordPage extends React.Component<PageProps, State> {
                   color: '#FFD700',
                   unlock: this.props.settings.is108quotesRead,
                 },
-              ].map(a =>
-                <IonItem>
-                <IonIcon slot='start' className='uiFont' icon={trophy} style={{ color: a.color }} />
+              ].map((a, i) =>
+                <IonItem key={`achievement_${i}`}>
+                  <IonIcon slot='start' className='uiFont' icon={trophy} style={{ color: a.color }} />
                   <IonLabel className='uiFont'>已讀{a.achievement}則自在語</IonLabel>
                   {
                     a.unlock ?
@@ -86,9 +115,9 @@ class _RecordPage extends React.Component<PageProps, State> {
           </IonList>
 
           <IonList>
-            <IonListHeader className='uiFont select'>已讀未讀</IonListHeader>
+            <IonListHeader className='uiFont select'>解鎖自在語</IonListHeader>
             {
-              this.props.settings.qouteReads.map((read, i) =>
+              this.state.quoteReads.map((read, i) =>
                 <IonItem className='uiFont' button key={`read${i}`} onClick={() => {
                   if (!read) {
                     this.setState({ showToast: true, toastMessage: `自在語 No. ${i + 1} 尚未解鎖！` });
@@ -108,6 +137,16 @@ class _RecordPage extends React.Component<PageProps, State> {
                   }
                 </IonItem>)
             }
+            <IonInfiniteScroll threshold="100px"
+              disabled={!this.state.isScrollOn}
+              onIonInfinite={(ev: CustomEvent<void>) => {
+                this.loadMoreQuotes();
+                (ev.target as HTMLIonInfiniteScrollElement).complete();
+              }}>
+              <IonInfiniteScrollContent
+                loadingText="載入中...">
+              </IonInfiniteScrollContent>
+            </IonInfiniteScroll>
           </IonList>
 
           <IonToast
