@@ -30,23 +30,20 @@ async function loadTwKaiFonts(progressCallback: Function | null = null, win: Win
   }
 
   let finishCount = 0;
-  let load: Promise<any>[] = [];
   for (let i = 0; i < twKaiFonts.length; i++) {
-    load.push(loadTwKaiFont(
+    const fontFace = await loadTwKaiFont(
       twKaiFonts[i],
       twKaiFontKeys[i],
       twKaiFontPaths[i],
       forceUpdate,
-    ).then(
-      // eslint-disable-next-line no-loop-func
-      (fontFace) => {
-        win.document.fonts.add(fontFace);
-        //console.log(`[Main] ${twKaiFontKeys[i]} font loading success!`);
-        finishCount += 1;
-        progressCallback && progressCallback(finishCount / twKaiFonts.length);
-      }));
+    );
+
+    win.document.fonts.add(fontFace);
+    //console.log(`[Main] ${twKaiFontKeys[i]} font loading success!`);
+    finishCount += 1;
+    progressCallback && progressCallback(finishCount / twKaiFonts.length);
   }
-  return Promise.all(load);
+  return Promise.resolve();
 }
 
 async function loadTwKaiFont(font: string, key: string, path: string, forceUpdate: boolean) {
@@ -177,7 +174,7 @@ const checkServiceWorkerInterval = 20;
 let serviceWorkerLoaded = false;
 let _serviceWorkerReg: ServiceWorkerRegistration;
 async function getServiceWorkerReg() {
-  if (serviceWorkerLoaded) { 
+  if (serviceWorkerLoaded) {
     return _serviceWorkerReg;
   }
 

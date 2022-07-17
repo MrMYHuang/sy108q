@@ -42,11 +42,11 @@ class _QuotePage extends React.Component<PageProps, State> {
     };
   }
 
-  ionViewWillEnter() {
+  ionViewDidEnter() {
     // First, reset quote container.
     this.setState({ quote: ' ' }, () => {
       this.fitText();
-      
+
       this.setState({ quote: this.getQuote() }, () => {
         this.fitText();
 
@@ -103,7 +103,7 @@ class _QuotePage extends React.Component<PageProps, State> {
     return Globals.quotes[+this.props.match.params.id - 1];
   }
 
-  fitText() {
+  async fitText() {
     const quoteDiv = document.getElementById('quote');
     if (!quoteDiv) {
       return;
@@ -114,8 +114,9 @@ class _QuotePage extends React.Component<PageProps, State> {
       return;
     }
 
-    const w = quoteContainer.clientWidth;
-    const h = quoteContainer.clientHeight;
+    const margin = 0;
+    const w = quoteContainer.clientWidth - margin;
+    const h = quoteContainer.clientHeight - margin;
     const verticalMode = h > w;
     quoteContainer.style.writingMode = verticalMode ? 'vertical-rl' : 'horizontal-tb';
     quoteDiv.style.writingMode = verticalMode ? 'vertical-rl' : 'horizontal-tb';
@@ -124,10 +125,11 @@ class _QuotePage extends React.Component<PageProps, State> {
     const maxTextFontSize = Math.sqrt(w * h / n);
 
     let textFontSize = Math.floor(maxTextFontSize);
-    while (textFontSize > 0) {
-      quoteDiv.style.fontSize = `${textFontSize}px`;
-      const ws = quoteContainer.scrollWidth;
-      const hs = quoteContainer.scrollHeight;
+    while (textFontSize > 12) {
+      // eslint-disable-next-line no-loop-func
+      quoteDiv.style.cssText = `font-size: ${textFontSize}px; width: ${w}px;`;
+      const ws = quoteContainer.scrollWidth - margin;
+      const hs = quoteContainer.scrollHeight - margin;
       if (verticalMode && ws <= w) {
         break;
       } else if (!verticalMode && hs <= h) {
@@ -136,6 +138,9 @@ class _QuotePage extends React.Component<PageProps, State> {
 
       textFontSize -= 1;
     }
+
+    console.log(quoteContainer.getBoundingClientRect());
+    console.log(quoteDiv.getBoundingClientRect());
   }
 
   addBookmarkHandler() {
@@ -170,7 +175,7 @@ class _QuotePage extends React.Component<PageProps, State> {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <div id='quote-container' style={{ width: '100%', height: '100%' }} onClick={() => {
+          <div id='quote-container' style={{ display: 'flex', width: '100%', height: '100%' }} onClick={() => {
             this.props.history.push(`${Globals.pwaUrl}/quote/select`);
           }}>
             <div id='quote'>{this.state.quote}</div>

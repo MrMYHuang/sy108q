@@ -10,6 +10,12 @@
     --print-background: white;
 }
 
+html {
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+    direction: ltr;
+}
+
 body {
     overscroll-behavior-x: none;
 }
