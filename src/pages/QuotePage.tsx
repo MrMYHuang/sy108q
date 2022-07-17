@@ -53,6 +53,12 @@ class _QuotePage extends React.Component<PageProps, State> {
         let qouteReads = JSON.parse(JSON.stringify(this.props.settings.qouteReads)) as boolean[];
         qouteReads[+this.props.match.params.id - 1] = true;
 
+        this.props.dispatch({
+          type: "SET_KEY_VAL",
+          key: 'qouteReads',
+          val: qouteReads,
+        });
+
         const quoteReadsCount = qouteReads.reduce((prev, curr) => prev + (curr ? 1 : 0), 0);
 
         [
@@ -85,12 +91,6 @@ class _QuotePage extends React.Component<PageProps, State> {
             });
             this.setState({ showUnlockToast: true, unlockToastMessage: `解鎖 - 已讀 ${a.unlockThreshold} 則自在語` });
           }
-        });
-
-        this.props.dispatch({
-          type: "SET_KEY_VAL",
-          key: 'qouteReads',
-          val: qouteReads,
         });
       });
     });
