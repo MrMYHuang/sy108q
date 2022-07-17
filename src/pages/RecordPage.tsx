@@ -41,17 +41,26 @@ class _RecordPage extends React.Component<PageProps, State> {
   }
 
   ionViewWillEnter() {
-    this.loadMoreQuotes();
+    this.loadMoreQuotes(true);
   }
 
   page = 0;
   rows = 20;
   loadMoreQuotesLock = false;
-  loadMoreQuotes() {
+  async loadMoreQuotes(reload: boolean = false) {
+    if (reload) {
+      this.page = 0;
+      await new Promise<void>(resolve => {
+        this.setState({ quoteReads: [] }, () => {
+          resolve();
+        });
+      });
+    }
+
     if (this.loadMoreQuotesLock) {
       return;
     }
-    
+
     this.loadMoreQuotesLock = true;
     let newAppendQuoteReadsRangeEnd = Math.min((this.page + 1) * this.rows, Globals.quotes.length);
     const newAppendQuoteReads = this.props.settings.qouteReads.slice(this.page * this.rows, newAppendQuoteReadsRangeEnd);
@@ -139,8 +148,8 @@ class _RecordPage extends React.Component<PageProps, State> {
             }
             <IonInfiniteScroll threshold="100px"
               disabled={!this.state.isScrollOn}
-              onIonInfinite={(ev: CustomEvent<void>) => {
-                this.loadMoreQuotes();
+              onIonInfinite={async (ev: CustomEvent<void>) => {
+                await this.loadMoreQuotes();
                 (ev.target as HTMLIonInfiniteScrollElement).complete();
               }}>
               <IonInfiniteScrollContent

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=壹零捌自在語
+GenericName=壹零捌自在語
+Exec=sy108q/sy108q --no-sandbox
+Icon=${SNAP}/meta/gui/icon.png
+Type=Application
+Terminal=false
+Categories=None;
+StartupWMClass=sy108q
