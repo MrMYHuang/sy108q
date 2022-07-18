@@ -8,7 +8,10 @@ const bugReportApiUrl = 'https://vh6ud1o56g.execute-api.ap-northeast-1.amazonaws
 let twKaiFontsCache: { [key: string]: FontFace } = {};
 const twKaiFonts = ['Kai', 'Kai', 'Kai', 'KaiExtB', 'KaiExtB', 'KaiExtB', 'KaiPlus', 'KaiPlus'];
 const twKaiFontKeys = ['twKaiFont-1', 'twKaiFont-2', 'twKaiFont-3', 'twKaiExtBFont-1', 'twKaiExtBFont-2', 'twKaiExtBFont-3', 'twKaiPlusFont-1', 'twKaiPlusFont-2',];
-const twKaiFontPaths = [`${pwaUrl}/assets/TW-Kai-98_1-1.woff2`, `${pwaUrl}/assets/TW-Kai-98_1-2.woff2`, `${pwaUrl}/assets/TW-Kai-98_1-3.woff2`, `${pwaUrl}/assets/TW-Kai-Ext-B-98_1-1.woff2`, `${pwaUrl}/assets/TW-Kai-Ext-B-98_1-2.woff2`, `${pwaUrl}/assets/TW-Kai-Ext-B-98_1-3.woff2`, `${pwaUrl}/assets/TW-Kai-Plus-98_1-1.woff2`, `${pwaUrl}/assets/TW-Kai-Plus-98_1-2.woff2`,];
+const fontBaseUrl = process.env.NODE_ENV === 'production' ?
+'https://objectstorage.ap-osaka-1.oraclecloud.com/n/axq0jpnkikfn/b/myh/o'
+: `${window.location.origin}${pwaUrl}/assets`;
+const twKaiFontFiles = [`TW-Kai-98_1-1.woff2`, `TW-Kai-98_1-2.woff2`, `TW-Kai-98_1-3.woff2`, `TW-Kai-Ext-B-98_1-1.woff2`, `TW-Kai-Ext-B-98_1-2.woff2`, `TW-Kai-Ext-B-98_1-3.woff2`, `TW-Kai-Plus-98_1-1.woff2`, `TW-Kai-Plus-98_1-2.woff2`,];
 
 const sy108qDb = 'sy108qDb';
 let log = '';
@@ -34,7 +37,7 @@ async function loadTwKaiFonts(progressCallback: Function | null = null, win: Win
     const fontFace = await loadTwKaiFont(
       twKaiFonts[i],
       twKaiFontKeys[i],
-      twKaiFontPaths[i],
+      twKaiFontFiles[i],
       forceUpdate,
     );
 
@@ -46,10 +49,10 @@ async function loadTwKaiFonts(progressCallback: Function | null = null, win: Win
   return Promise.resolve();
 }
 
-async function loadTwKaiFont(font: string, key: string, path: string, forceUpdate: boolean) {
+async function loadTwKaiFont(font: string, key: string, fileName: string, forceUpdate: boolean) {
   const fontFaceCache = twKaiFontsCache[key];
   const updateFont = () => {
-    return axiosInstance.get(`${window.location.origin}${path}`, {
+    return axiosInstance.get(`${fontBaseUrl}/${fileName}`, {
       responseType: 'arraybuffer',
       timeout: 0,
     }).then(res => {
