@@ -18,7 +18,7 @@ interface Props {
 
 interface State {
   quote: string;
-  customQuoteId: number;
+  customQuoteId: string;
   showToast: boolean;
   toastMessage: string;
 }
@@ -34,7 +34,7 @@ class _QuotePage extends React.Component<PageProps, State> {
     super(props);
     this.state = {
       quote: '',
-      customQuoteId: 1,
+      customQuoteId: '1',
       showToast: false,
       toastMessage: '',
     }
@@ -56,16 +56,22 @@ class _QuotePage extends React.Component<PageProps, State> {
         </IonHeader>
         <IonContent>
 
-          <div className='uiFont' style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', textAlign: 'center', alignItems: 'center', justifyContent: 'space-between', padding: '0px 20px' }}>
+          <div className='uiFont' style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', padding: '0px 20px' }}>
             <div>
-              <div style={{ padding: '20px 20px' }}>
+              <div style={{ padding: '20px 0px' }}>
                 <IonInput className='uiFont' inputmode='numeric' value={this.state.customQuoteId}
                   onIonChange={(ev) => {
-                    this.setState({ customQuoteId: +(ev.target.value || 1) })
-                  }} />
+                    this.setState({ customQuoteId: `${ev.target.value}` })
+                  }}>No.&nbsp;</IonInput>
               </div>
-              <div style={{ padding: '20px 20px' }}>
+              <div style={{textAlign: 'center'}}>
                 <IonButton style={{ fontSize: `${this.props.settings.uiFontSize * 1.5}px` }} fill='outline' shape='round' size='large' onClick={() => {
+                  const quoteId = +this.state.customQuoteId;
+                  if (isNaN(quoteId) || 1 > quoteId || quoteId > 108) {
+                    this.setState({showToast: true, toastMessage: `請輸入介於1到108之間的數字`});
+                    return;
+                  }
+                  
                   this.props.history.push(`${Globals.pwaUrl}/quote/quote/${this.state.customQuoteId}`);
                 }}>自選自在語</IonButton>
               </div>

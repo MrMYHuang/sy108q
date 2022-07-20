@@ -177,7 +177,7 @@ class _QuotePage extends React.Component<PageProps, State> {
         </IonHeader>
         <IonContent>
           <div id='quote-container' style={{ display: 'flex', width: '100%', height: '100%' }} onClick={() => {
-            this.props.history.push(`${Globals.pwaUrl}/quote/select`);
+            //this.props.history.push(`${Globals.pwaUrl}/quote/select`);
           }}>
             <div id='quote'>{this.state.quote}</div>
           </div>

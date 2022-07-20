@@ -10,6 +10,7 @@ export interface Settings {
     voiceURI: string | null;
     speechRate: number;
     bookmarks: Bookmark[];
+    dictionaryHistory: string[];
     qouteReads: boolean[];
     is27quotesRead: boolean;
     is54quotesRead: boolean;
@@ -26,6 +27,7 @@ export const defaultSettings = {
     voiceURI: null,
     speechRate: 0.8,
     bookmarks: [],
+    dictionaryHistory: [],
     qouteReads: new Array(Globals.quotes.length).fill(false),
     is27quotesRead: false,
     is54quotesRead: false,

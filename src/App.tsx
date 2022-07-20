@@ -15,7 +15,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import { connect, Provider } from 'react-redux';
 import queryString from 'query-string';
 import getSavedStore from './redux/store';
-import { bookmark, settings, chatbox, lockOpen } from 'ionicons/icons';
+import { bookmark, settings, chatbox, lockOpen, search } from 'ionicons/icons';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -44,6 +44,7 @@ import QuotePage from './pages/QuotePage';
 import QuoteSelectPage from './pages/QuoteSelectPage';
 import RecordPage from './pages/RecordPage';
 import IndexedDbFuncs from './IndexedDbFuncs';
+import SearchPage from './pages/SearchPage';
 
 const electronBackendApi: any = (window as any).electronBackendApi;
 
@@ -264,6 +265,7 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
               {/* The following route is for backward compatibility. */}
               <Route path={`${Globals.pwaUrl}/:tab(quote)/select`} render={(props: any) => <QuoteSelectPage {...props} />} exact={true} />
               <Route path={`${Globals.pwaUrl}/:tab(quote)/quote/:id`} render={(props: any) => <QuotePage {...props} />} exact={true} />
+              <Route path={`${Globals.pwaUrl}/:tab(search)/:keyword?`} render={(props: any) => <SearchPage {...props} />} exact={true} />
               <Route path={`${Globals.pwaUrl}/:tab(bookmarks)`} render={(props: any) => <BookmarkPage {...props} />} exact={true} />
               <Route path={`${Globals.pwaUrl}/:tab(record)`} render={(props: any) => <RecordPage {...props} />} exact={true} />
               <Route path={`${Globals.pwaUrl}/settings`} render={(props: any) => <SettingsPage {...props} />} />
@@ -272,6 +274,9 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
             <IonTabBar slot="bottom">
               <IonTabButton tab="quote" href={`${Globals.pwaUrl}/quote/select`}>
                 <IonIcon icon={chatbox} />
+              </IonTabButton>
+              <IonTabButton tab="search" href={`${Globals.pwaUrl}/search`}>
+                <IonIcon icon={search} />
               </IonTabButton>
               <IonTabButton tab="bookmarks" href={`${Globals.pwaUrl}/bookmarks`}>
                 <IonIcon icon={bookmark} />

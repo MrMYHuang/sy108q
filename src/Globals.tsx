@@ -1,7 +1,6 @@
 import { isPlatform, IonLabel } from '@ionic/react';
 import axios from 'axios';
 import IndexedDbFuncs from './IndexedDbFuncs';
-import { IDictItem } from './models/DictItem';
 
 const pwaUrl = process.env.PUBLIC_URL || '';
 const bugReportApiUrl = 'https://vh6ud1o56g.execute-api.ap-northeast-1.amazonaws.com/bugReportMailer';
@@ -16,7 +15,6 @@ const twKaiFontFiles = [`TW-Kai-98_1-1.woff2`, `TW-Kai-98_1-2.woff2`, `TW-Kai-98
 const sy108qDb = 'sy108qDb';
 let log = '';
 
-var dictItems: Array<IDictItem> = [];
 const axiosInstance = axios.create({
   timeout: 10000,
 });
@@ -258,7 +256,6 @@ const Globals = {
   isStoreApps: () => {
     return isPlatform('pwa') || isPlatform('electron');
   },
-  dictItems,
   clearAppData,
   removeElementsByClassName,
   disableAndroidChromeCallout,
