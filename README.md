@@ -106,6 +106,9 @@ https://myhpwa.github.io/sy108q
 </a>
 
 ## <a id='history'>版本歷史</a>
+* Android app 1.0.0.1 (2):
+  * [修正] 異常 app 捷徑。
+
 * PWA 1.4.0:
   * [新增] 支援搜尋自在語。
   * [修正] 自選自在語輸入常會自動重置為1.
