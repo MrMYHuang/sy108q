@@ -106,6 +106,9 @@ https://myhpwa.github.io/sy108q
 </a>
 
 ## <a id='history'>版本歷史</a>
+* PWA 1.4.1:
+  * [修正] 有時文字橫/直排與內容長/寬比例不一致。
+
 * Android app 1.0.0.1 (2):
   * [修正] 異常 app 捷徑。
 

@@ -40,63 +40,65 @@ class _QuotePage extends React.Component<PageProps, State> {
       showUnlockToast: false,
       unlockToastMessage: '',
     };
+
   }
 
   ionViewDidEnter() {
-    // First, reset quote container.
-    this.setState({ quote: '' }, async () => {
+    this.setState({ quote: this.getQuote() }, async () => {
       await this.fitText();
 
-      this.setState({ quote: this.getQuote() }, async () => {
-        await this.fitText();
+      let qouteReads = JSON.parse(JSON.stringify(this.props.settings.qouteReads)) as boolean[];
+      qouteReads[+this.props.match.params.id - 1] = true;
 
-        let qouteReads = JSON.parse(JSON.stringify(this.props.settings.qouteReads)) as boolean[];
-        qouteReads[+this.props.match.params.id - 1] = true;
+      this.props.dispatch({
+        type: "SET_KEY_VAL",
+        key: 'qouteReads',
+        val: qouteReads,
+      });
 
-        this.props.dispatch({
-          type: "SET_KEY_VAL",
-          key: 'qouteReads',
-          val: qouteReads,
-        });
+      const quoteReadsCount = qouteReads.reduce((prev, curr) => prev + (curr ? 1 : 0), 0);
 
-        const quoteReadsCount = qouteReads.reduce((prev, curr) => prev + (curr ? 1 : 0), 0);
-
-        [
-          {
-            unlockThreshold: 27,
-            isUnlock: this.props.settings.is27quotesRead,
-            achievemnt: 'is27quotesRead',
-          },
-          {
-            unlockThreshold: 54,
-            isUnlock: this.props.settings.is54quotesRead,
-            achievemnt: 'is54quotesRead',
-          },
-          {
-            unlockThreshold: 81,
-            isUnlock: this.props.settings.is81quotesRead,
-            achievemnt: 'is81quotesRead',
-          },
-          {
-            unlockThreshold: 108,
-            isUnlock: this.props.settings.is108quotesRead,
-            achievemnt: 'is108quotesRead',
-          },
-        ].forEach(a => {
-          if (a.unlockThreshold <= quoteReadsCount && !a.isUnlock) {
-            this.props.dispatch({
-              type: "SET_KEY_VAL",
-              key: a.achievemnt,
-              val: true,
-            });
-            this.setState({ showUnlockToast: true, unlockToastMessage: `解鎖 - 已讀 ${a.unlockThreshold} 則自在語` });
-          }
-        });
+      [
+        {
+          unlockThreshold: 27,
+          isUnlock: this.props.settings.is27quotesRead,
+          achievemnt: 'is27quotesRead',
+        },
+        {
+          unlockThreshold: 54,
+          isUnlock: this.props.settings.is54quotesRead,
+          achievemnt: 'is54quotesRead',
+        },
+        {
+          unlockThreshold: 81,
+          isUnlock: this.props.settings.is81quotesRead,
+          achievemnt: 'is81quotesRead',
+        },
+        {
+          unlockThreshold: 108,
+          isUnlock: this.props.settings.is108quotesRead,
+          achievemnt: 'is108quotesRead',
+        },
+      ].forEach(a => {
+        if (a.unlockThreshold <= quoteReadsCount && !a.isUnlock) {
+          this.props.dispatch({
+            type: "SET_KEY_VAL",
+            key: a.achievemnt,
+            val: true,
+          });
+          this.setState({ showUnlockToast: true, unlockToastMessage: `解鎖 - 已讀 ${a.unlockThreshold} 則自在語` });
+        }
       });
     });
   }
 
   ionViewWillLeave() {
+  }
+
+  componentDidMount() {
+    new ResizeObserver(() => {
+      this.fitText();
+    }).observe(document.getElementById('quote-container')!);
   }
 
   getQuote() {
@@ -114,9 +116,8 @@ class _QuotePage extends React.Component<PageProps, State> {
       return;
     }
 
-    const margin = 0;
-    const w = quoteContainer.clientWidth - margin;
-    const h = quoteContainer.clientHeight - margin;
+    const w = quoteContainer.clientWidth;
+    const h = quoteContainer.clientHeight;
     const verticalMode = h > w;
     quoteContainer.style.writingMode = verticalMode ? 'vertical-rl' : 'horizontal-tb';
     quoteDiv.style.writingMode = verticalMode ? 'vertical-rl' : 'horizontal-tb';
@@ -131,8 +132,8 @@ class _QuotePage extends React.Component<PageProps, State> {
       while (textFontSize > 12) {
         // eslint-disable-next-line no-loop-func
         quoteDiv.style.cssText = `font-size: ${textFontSize}px; width: ${w}px;`;
-        const ws = quoteContainer.scrollWidth - margin;
-        const hs = quoteContainer.scrollHeight - margin;
+        const ws = quoteContainer.scrollWidth;
+        const hs = quoteContainer.scrollHeight;
         if (verticalMode && ws <= w) {
           break;
         } else if (!verticalMode && hs <= h) {
