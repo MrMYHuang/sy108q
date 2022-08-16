@@ -41,12 +41,11 @@ class _QuotePage extends React.Component<PageProps, State> {
       showUnlockToast: false,
       unlockToastMessage: '',
     };
-
   }
 
   ionViewDidEnter() {
     this.setState({ quote: this.getQuote() }, async () => {
-      await this.fitText();
+      await this.fitText(this.props.settings.language === 'zh');
 
       let qouteReads = JSON.parse(JSON.stringify(this.props.settings.qouteReads)) as boolean[];
       qouteReads[+this.props.match.params.id - 1] = true;
@@ -98,7 +97,7 @@ class _QuotePage extends React.Component<PageProps, State> {
 
   componentDidMount() {
     new ResizeObserver(() => {
-      this.fitText();
+      this.fitText(this.props.settings.language === 'zh');
     }).observe(document.getElementById('quote-container')!);
   }
 
@@ -106,7 +105,8 @@ class _QuotePage extends React.Component<PageProps, State> {
     return Globals.quotes[+this.props.match.params.id - 1];
   }
 
-  async fitText() {
+  async fitText(isZh: boolean = true) {
+    //console.log('fitText');
     const quoteDiv = document.getElementById('quote');
     if (!quoteDiv) {
       return;
@@ -119,29 +119,27 @@ class _QuotePage extends React.Component<PageProps, State> {
 
     const w = quoteContainer.clientWidth;
     const h = quoteContainer.clientHeight;
-    const verticalMode = h > w;
+    const verticalMode = isZh && h > w;
     quoteContainer.style.writingMode = verticalMode ? 'vertical-rl' : 'horizontal-tb';
     quoteDiv.style.writingMode = verticalMode ? 'vertical-rl' : 'horizontal-tb';
 
     const n = this.state.quote.length;
-    const maxTextFontSize = Math.sqrt(w * h / n);
 
     if (n === 0) {
       quoteDiv.style.cssText = `font-size: 12px; width: ${w}px;`;
     } else {
-      let textFontSize = Math.floor(maxTextFontSize);
-      while (textFontSize > 12) {
+      let textFontSize = 12;
+      while (textFontSize < 1024) {
         // eslint-disable-next-line no-loop-func
         quoteDiv.style.cssText = `font-size: ${textFontSize}px; width: ${w}px;`;
         const ws = quoteContainer.scrollWidth;
         const hs = quoteContainer.scrollHeight;
-        if (verticalMode && ws <= w) {
+        if ((verticalMode && ws > w) || (!verticalMode && hs > h)) {
+          quoteDiv.style.cssText = `font-size: ${textFontSize - 1}px; width: ${w}px;`;
           break;
-        } else if (!verticalMode && hs <= h) {
-          break
         }
 
-        textFontSize -= 1;
+        textFontSize += 1;
       }
     }
   }
@@ -178,7 +176,7 @@ class _QuotePage extends React.Component<PageProps, State> {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <div id='quote-container' style={{ display: 'flex', width: '100%', height: '100%' }} onClick={() => {
+          <div id='quote-container' style={{ display: 'flex', width: '100%', height: '100%', overflow: 'hidden' }} onClick={() => {
             //this.props.history.push(`${Globals.pwaUrl}/quote/select`);
           }}>
             <div id='quote'>{this.state.quote}</div>

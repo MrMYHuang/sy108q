@@ -216,7 +216,7 @@ const Globals = {
   pwaUrl,
   bugReportApiUrl,
   storeFile: newStoreFile,
-  quotes: require('./sy108q.json') as string[],
+  quotes: require('./sy108q-en.json') as string[],
   getLog,
   enableAppLog,
   disableAppLog,

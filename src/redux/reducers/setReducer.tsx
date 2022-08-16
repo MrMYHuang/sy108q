@@ -4,6 +4,7 @@ import { defaultSettings, Settings } from '../../models/Settings';
 import i18n from '../../i18n';
 
 i18n.on('languageChanged', (lang: string) => {
+  Globals.quotes = require(`../../sy108q-${lang}.json`) as string[];
   Globals.electronBackendApi?.invoke('toMainV3', { event: 'changeLanguage', lang });
 });
 
