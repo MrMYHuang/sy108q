@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		139F8A3528AB6B0800CC35AB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 139F8A3028AB6B0800CC35AB /* InfoPlist.strings */; };
+		139F8A3628AB6B0800CC35AB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 139F8A3328AB6B0800CC35AB /* InfoPlist.strings */; };
 		DBC713B2269D606400FCE5B0 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC713B1269D606400FCE5B0 /* Tests_iOS.swift */; };
 		DBC713BF269D606400FCE5B0 /* sy108qApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC71396269D606300FCE5B0 /* sy108qApp.swift */; };
 		DBC713C1269D606400FCE5B0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC71397269D606300FCE5B0 /* ContentView.swift */; };
@@ -26,6 +28,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		139F8A3128AB6B0800CC35AB /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = InfoPlist.strings; sourceTree = "<group>"; };
+		139F8A3428AB6B0800CC35AB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		DBC71396269D606300FCE5B0 /* sy108qApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sy108qApp.swift; sourceTree = "<group>"; };
 		DBC71397269D606300FCE5B0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DBC71398269D606400FCE5B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -59,6 +63,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		139F8A2F28AB6B0800CC35AB /* zh-Hant.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				139F8A3028AB6B0800CC35AB /* InfoPlist.strings */,
+			);
+			path = "zh-Hant.lproj";
+			sourceTree = "<group>";
+		};
+		139F8A3228AB6B0800CC35AB /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				139F8A3328AB6B0800CC35AB /* InfoPlist.strings */,
+			);
+			path = en.lproj;
+			sourceTree = "<group>";
+		};
 		DBBD2A75269F1F42005363B8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +122,8 @@
 		DBC7139F269D606400FCE5B0 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				139F8A3228AB6B0800CC35AB /* en.lproj */,
+				139F8A2F28AB6B0800CC35AB /* zh-Hant.lproj */,
 				DBC713A0269D606400FCE5B0 /* Info.plist */,
 			);
 			path = iOS;
@@ -191,6 +213,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hant",
 			);
 			mainGroup = DBC71390269D606300FCE5B0;
 			packageReferences = (
@@ -212,6 +235,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DBC713C3269D606400FCE5B0 /* Assets.xcassets in Resources */,
+				139F8A3628AB6B0800CC35AB /* InfoPlist.strings in Resources */,
+				139F8A3528AB6B0800CC35AB /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,6 +277,25 @@
 			targetProxy = DBC713AE269D606400FCE5B0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		139F8A3028AB6B0800CC35AB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				139F8A3128AB6B0800CC35AB /* zh-Hant */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		139F8A3328AB6B0800CC35AB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				139F8A3428AB6B0800CC35AB /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		DBC713C5269D606400FCE5B0 /* Debug */ = {

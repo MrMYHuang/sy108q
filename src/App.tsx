@@ -159,21 +159,23 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
     let showToastInit = false;
     let toastMessageInit = '';
     IndexedDbFuncs.open().then(() => {
-      if (Globals.twKaiFontNeedUpgrade() && this.props.settings.useFontKai) {
-        this.props.dispatch({
-          type: "SET_KEY_VAL",
-          key: 'useFontKai',
-          val: false
-        });
-        localStorage.setItem('twKaiFontVersion', "0");
-        let settingsTemp = this.props.settings;
-        settingsTemp.useFontKai = false;
-        Globals.updateCssVars(settingsTemp);
-
-        showToastInit = true;
-        toastMessageInit = '楷書字型已更新，請至設定頁開啟楷書！';
-      } else if (this.props.settings.useFontKai) {
-        Globals.loadTwKaiFonts();
+      if (this.props.settings.language === 'zh' && this.props.settings.useFontKai) {
+        if (Globals.twKaiFontNeedUpgrade()) {
+          this.props.dispatch({
+            type: "SET_KEY_VAL",
+            key: 'useFontKai',
+            val: false
+          });
+          localStorage.setItem('twKaiFontVersion', "0");
+          let settingsTemp = this.props.settings;
+          settingsTemp.useFontKai = false;
+          Globals.updateCssVars(settingsTemp);
+  
+          showToastInit = true;
+          toastMessageInit = '楷書字型已更新，請至設定頁開啟楷書！';
+        } else {
+          Globals.loadTwKaiFonts();
+        }
       }
     });
 

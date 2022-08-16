@@ -110,14 +110,13 @@ class _SettingsPage extends React.Component<PageProps, StateProps> {
                 Globals.shareByLink(this.props.dispatch, decodeURIComponent(window.location.origin));
               }}>分享</IonButton>
             </IonItem>
-            */}
+            
             <IonItem hidden={!this.props.mainVersion}>
-              <div tabIndex={0}></div>{/* Workaround for macOS Safari 14 bug. */}
               <IonIcon icon={informationCircle} slot='start' />
               <IonLabel className='ion-text-wrap uiFont'>Backend app 版本: {this.props.mainVersion}</IonLabel>
-              {/*<IonButton fill='outline' shape='round' slot='end' size='large' className='uiFont' onClick={e => {
-              }}>分享</IonButton>*/}
-            </IonItem>
+              <IonButton fill='outline' shape='round' slot='end' size='large' className='uiFont' onClick={e => {
+              }}>分享</IonButton>
+            </IonItem>*/}
             <IonItem>
               <div tabIndex={0}></div>{/* Workaround for macOS Safari 14 bug. */}
               <IonIcon icon={bug} slot='start' />
@@ -388,50 +387,6 @@ class _SettingsPage extends React.Component<PageProps, StateProps> {
                 </div>
               </div>
             </IonItem>
-            {/*
-            <IonItem>
-              <div tabIndex={0}></div>{/* Workaround for macOS Safari 14 bug. * /}
-              <IonIcon icon={print} slot='start' />
-              <IonLabel className='ion-text-wrap uiFont'>合成語音</IonLabel>
-              <IonSelect slot='end'
-                value={this.props.voiceURI}
-                className='uiFont'
-                interface='action-sheet'
-                cancelText='取消'
-                onIonChange={e => {
-                  const value = e.detail.value;
-                  if (this.props.voiceURI === value) {
-                    return;
-                  }
-
-                  this.props.dispatch({
-                    type: "SET_KEY_VAL",
-                    key: 'voiceURI',
-                    val: value,
-                  });
-                }}>
-                {
-                  Globals.zhVoices().map((v, i) => <IonSelectOption key={i} className='uiFont blackWhite printVar' value={v.voiceURI}>{v.name}</IonSelectOption>)
-                }
-              </IonSelect>
-            </IonItem>
-            <IonItem>
-              <div tabIndex={0}></div>{/* Workaround for macOS Safari 14 bug. * /}
-              <IonIcon icon={musicalNotes} slot='start' />
-              <div className="contentBlock">
-                <div style={{ flexDirection: "column" }}>
-                  <IonLabel className='ion-text-wrap uiFont'><a href="https://github.com/MrMYHuang/sy108q#text2speech" target="_new">合成語音語速</a>: {this.props.speechRate}</IonLabel>
-                  <IonRange min={0.1} max={1.5} step={0.1} snaps={true} value={this.props.speechRate} onIonChange={e => {
-                    this.props.dispatch({
-                      type: "SET_KEY_VAL",
-                      key: 'speechRate',
-                      val: (e.detail.value as number).toFixed(1),
-                    });
-                  }} />
-                </div>
-              </div>
-            </IonItem>
-          */}
             <IonItem>
               <div tabIndex={0}></div>{/* Workaround for macOS Safari 14 bug. */}
               <IonIcon icon={helpCircle} slot='start' />
