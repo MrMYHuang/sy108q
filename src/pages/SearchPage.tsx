@@ -2,12 +2,13 @@ import React, { ReactNode } from 'react';
 import { IonContent, IonHeader, IonPage, IonToolbar, withIonLifeCycle, IonButton, IonIcon, IonSearchbar, IonList, IonItem, IonLabel, IonToast, IonTitle, IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/react';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
 import Globals from '../Globals';
 import { shareSocial } from 'ionicons/icons';
 import { Settings } from '../models/Settings';
 
-interface Props {
+interface Props extends WithTranslation {
   dispatch: Function;
   settings: Settings;
 }
@@ -130,7 +131,7 @@ class _SearchPage extends React.Component<PageProps, State> {
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle style={{ fontSize: 'var(--ui-font-size)' }}>搜尋自在語</IonTitle>
+            <IonTitle style={{ fontSize: 'var(--ui-font-size)' }}>{this.props.t('Search')}</IonTitle>
 
             <IonButton fill="clear" slot='end' onClick={e => {
               Globals.shareByLink(this.props.dispatch, decodeURIComponent(window.location.href));
@@ -140,7 +141,7 @@ class _SearchPage extends React.Component<PageProps, State> {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <IonSearchbar ref={this.searchBarRef} placeholder='按 Enter 搜尋' value={this.state.keyword}
+          <IonSearchbar ref={this.searchBarRef} placeholder={this.props.t('PressEnter')} value={this.state.keyword}
             onIonClear={ev => {
               this.props.history.push({
                 pathname: `${Globals.pwaUrl}/search`,
@@ -166,7 +167,7 @@ class _SearchPage extends React.Component<PageProps, State> {
           {
             this.props.match.params.keyword == null || this.state.searches.length < 1 || (this.props.settings.dictionaryHistory.length > 0 && (this.state.keyword === '' || this.state.keyword === undefined)) ?
               <>
-                <div className='uiFont' style={{ color: 'var(--ion-color-primary)' }}>搜尋歷史</div>
+                <div className='uiFont' style={{ color: 'var(--ion-color-primary)' }}>{this.props.t('SearchHistory')}</div>
                 <IonList>
                   {this.props.settings.dictionaryHistory.map((keyword, i) =>
                     <IonItem key={`dictHistoryItem_${i}`} button={true} onClick={async event => {
@@ -194,7 +195,7 @@ class _SearchPage extends React.Component<PageProps, State> {
                       key: 'dictionaryHistory',
                       val: [],
                     });
-                  }}>清除歷史</IonButton>
+                  }}>{this.props.t('ClearHistory')}</IonButton>
                 </div>
               </>
               :
@@ -207,7 +208,7 @@ class _SearchPage extends React.Component<PageProps, State> {
                     (ev.target as HTMLIonInfiniteScrollElement).complete();
                   }}>
                   <IonInfiniteScrollContent
-                    loadingText="載入中...">
+                    loadingText={`${this.props.t('Loading')}...`}>
                   </IonInfiniteScrollContent>
                 </IonInfiniteScroll>
               </IonList>
@@ -236,6 +237,6 @@ const mapStateToProps = (state: any /*, ownProps*/) => {
 
 //const mapDispatchToProps = {};
 
-export default connect(
+export default withTranslation()(connect(
   mapStateToProps,
-)(SearchPage);
+)(SearchPage));

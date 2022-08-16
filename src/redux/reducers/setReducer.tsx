@@ -1,6 +1,11 @@
 import Globals from '../../Globals';
 import { Bookmark } from '../../models/Bookmark';
 import { defaultSettings, Settings } from '../../models/Settings';
+import i18n from '../../i18n';
+
+i18n.on('languageChanged', (lang: string) => {
+  Globals.electronBackendApi?.invoke('toMainV3', { event: 'changeLanguage', lang });
+});
 
 function updateUi(newSettings: Settings) {
   while (document.body.classList.length > 0) {
@@ -37,6 +42,9 @@ export default function reducer(state = { ...defaultSettings }, action: any) {
           Globals.updateCssVars(newSettings);
           break;
         }
+        case 'language':
+          i18n.changeLanguage(val);
+          break;
       }
       localStorage.setItem(Globals.storeFile, JSON.stringify({ settings: newSettings }));
       break;
@@ -74,6 +82,7 @@ export default function reducer(state = { ...defaultSettings }, action: any) {
           (newSettings as any)[key] = (defaultSettings as any)[key];
         }
       });
+      i18n.changeLanguage(newSettings.language);
   }
   return newSettings;
 }

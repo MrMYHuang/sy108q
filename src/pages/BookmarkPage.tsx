@@ -3,12 +3,14 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonReord
 import { ItemReorderEventDetail } from '@ionic/core';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Bookmark } from '../models/Bookmark';
-import { swapVertical } from 'ionicons/icons';
 import queryString from 'query-string';
+import { swapVertical } from 'ionicons/icons';
+import { withTranslation, WithTranslation } from 'react-i18next';
+
+import { Bookmark } from '../models/Bookmark';
 import Globals from '../Globals';
 
-interface Props {
+interface Props extends WithTranslation {
   dispatch: Function;
   bookmarks: Bookmark[];
   fontSize: number;
@@ -25,15 +27,6 @@ interface PageProps extends Props, RouteComponentProps<{
   path: string;
 }> { }
 
-const helpDoc = Globals.isStoreApps() ?
-  <></>
-  :
-  <>
-    <div style={{ fontSize: 'var(--ui-font-size)', textAlign: 'center' }}><a href="https://github.com/MrMYHuang/sy108q#web-app" target="_new">程式安裝說明</a></div>
-    <div style={{ fontSize: 'var(--ui-font-size)', textAlign: 'center' }}><a href="https://github.com/MrMYHuang/sy108q#shortcuts" target="_new">程式捷徑</a></div>
-  </>
-  ;
-
 class _BookmarkPage extends React.Component<PageProps, State> {
   bookmarkListRef: React.RefObject<HTMLIonListElement>;
   constructor(props: any) {
@@ -46,7 +39,14 @@ class _BookmarkPage extends React.Component<PageProps, State> {
     this.bookmarkListRef = React.createRef<HTMLIonListElement>();
   }
 
-  noBookmarkMessage = '無書籤！請將任一自在語加至書籤。';
+  helpDoc = Globals.isStoreApps() ?
+    <></>
+    :
+    <>
+      <div style={{ fontSize: 'var(--ui-font-size)', textAlign: 'center' }}><a href="https://github.com/MrMYHuang/sy108q#web-app" target="_new">{this.props.t('appInstall')}</a></div>
+    </>
+    ;
+  noBookmarkMessage = this.props.t('noBookmarkMessage');
   ionViewWillEnter() {
     let queryParams = queryString.parse(this.props.location.search) as any;
     if (queryParams.item && queryParams.item < this.props.bookmarks.length) {
@@ -96,7 +96,7 @@ class _BookmarkPage extends React.Component<PageProps, State> {
         <IonItemSliding key={`bookmarkItemSliding_` + i}>
           <IonItem key={`bookmarkItem_` + i} button={true} onClick={async event => {
             if (this.state.reorder) {
-              this.setState({ showToast: true, toastMessage: '請先關閉排列功能，才可點擊書籤！' });
+              this.setState({ showToast: true, toastMessage: this.props.t('alertDisableReorder') });
               return;
             }
 
@@ -116,7 +116,7 @@ class _BookmarkPage extends React.Component<PageProps, State> {
             <IonItemOption className='uiFont' color='danger' onClick={(e) => {
               this.delBookmarkHandler(bookmark.uuid);
               this.bookmarkListRef.current?.closeSlidingItems();
-            }}>刪除</IonItemOption>
+            }}>{this.props.t('Delete')}</IonItemOption>
           </IonItemOptions>
         </IonItemSliding>
       );
@@ -131,7 +131,7 @@ class _BookmarkPage extends React.Component<PageProps, State> {
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle className='uiFont'>書籤</IonTitle>
+            <IonTitle className='uiFont'>{this.props.t('Bookmarks')}</IonTitle>
 
             <IonButton fill={this.state.reorder ? 'solid' : 'clear'} slot='end'
               onClick={ev => this.setState({ reorder: !this.state.reorder })}>
@@ -147,13 +147,13 @@ class _BookmarkPage extends React.Component<PageProps, State> {
                   {rows}
                 </IonReorderGroup>
               </IonList>
-              {helpDoc}
+              {this.helpDoc}
             </> :
             <>
               <IonList key='bookmarkList1'>
                 {rows}
               </IonList>
-              {helpDoc}
+              {this.helpDoc}
             </>
           }
 
@@ -180,6 +180,6 @@ const mapStateToProps = (state: any /*, ownProps*/) => {
 
 const BookmarkPage = withIonLifeCycle(_BookmarkPage);
 
-export default connect(
+export default withTranslation()(connect(
   mapStateToProps,
-)(BookmarkPage);
+)(BookmarkPage));

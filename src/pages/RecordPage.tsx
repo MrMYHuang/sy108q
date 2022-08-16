@@ -3,13 +3,14 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, withIonLifeCycle,
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { checkmarkCircleOutline, helpCircleOutline, trophy } from 'ionicons/icons';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
 import { Bookmark } from '../models/Bookmark';
 import Globals from '../Globals';
 import { Settings } from '../models/Settings';
 import { TmpSettings } from '../models/TmpSettings';
 
-interface Props {
+interface Props extends WithTranslation{
   bookmarks: Bookmark[];
   dispatch: Function;
   settings: Settings;
@@ -79,13 +80,13 @@ class _RecordPage extends React.Component<PageProps, State> {
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle className='uiFont'>閱讀記錄</IonTitle>
+            <IonTitle className='uiFont'>{this.props.t('ReadRecords')}</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent>
 
           <IonList>
-            <IonListHeader className='uiFont select'>成就</IonListHeader>
+            <IonListHeader className='uiFont select'>{this.props.t('Achievemnets')}</IonListHeader>
             {
               [
                 {
@@ -111,7 +112,7 @@ class _RecordPage extends React.Component<PageProps, State> {
               ].map((a, i) =>
                 <IonItem key={`achievement_${i}`}>
                   <IonIcon slot='start' className='uiFont' icon={trophy} style={{ color: a.color }} />
-                  <IonLabel className='uiFont'>已讀{a.achievement}則自在語</IonLabel>
+                  <IonLabel className='uiFont'>{this.props.t('Read')} {a.achievement} {this.props.t('Items').toLowerCase()}</IonLabel>
                   {
                     a.unlock ?
                       <IonIcon className='uiFont' icon={checkmarkCircleOutline} color='success' />
@@ -124,12 +125,12 @@ class _RecordPage extends React.Component<PageProps, State> {
           </IonList>
 
           <IonList>
-            <IonListHeader className='uiFont select'>解鎖自在語</IonListHeader>
+            <IonListHeader className='uiFont select'>{this.props.t('UnlockedWisdomAdages')}</IonListHeader>
             {
               this.state.quoteReads.map((read, i) =>
                 <IonItem className='uiFont' button key={`read${i}`} onClick={() => {
                   if (!read) {
-                    this.setState({ showToast: true, toastMessage: `自在語 No. ${i + 1} 尚未解鎖！` });
+                    this.setState({ showToast: true, toastMessage: `${this.props.t('wisdomAdage')} No. ${i + 1} ${this.props.t('NotUnlocked')}!` });
                     return;
                   }
 
@@ -153,7 +154,7 @@ class _RecordPage extends React.Component<PageProps, State> {
                 (ev.target as HTMLIonInfiniteScrollElement).complete();
               }}>
               <IonInfiniteScrollContent
-                loadingText="載入中...">
+                loadingText={`${this.props.t('Loading')}...`}>
               </IonInfiniteScrollContent>
             </IonInfiniteScroll>
           </IonList>
@@ -183,6 +184,6 @@ const mapStateToProps = (state: any /*, ownProps*/) => {
 
 const RecordPage = withIonLifeCycle(_RecordPage);
 
-export default connect(
+export default withTranslation()(connect(
   mapStateToProps,
-)(RecordPage);
+)(RecordPage));

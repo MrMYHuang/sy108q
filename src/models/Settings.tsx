@@ -3,6 +3,8 @@ import { Bookmark } from "./Bookmark";
 
 export interface Settings {
     version: number;
+    appInitialized: boolean;
+    language: string;
     hasAppLog: boolean;
     theme: number;
     uiFontSize: number;
@@ -20,6 +22,8 @@ export interface Settings {
 
 export const defaultSettings = {
     version: 1,
+    appInitialized: false,
+    language: 'en',
     hasAppLog: true,
     theme: 2,
     uiFontSize: 32,

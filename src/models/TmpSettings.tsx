@@ -1,12 +1,22 @@
+interface IShareTextModal {
+    text: string;
+    show: boolean;
+}
+
 export interface TmpSettings {
     loadingData: boolean;
-    shareTextModal: any;
+    shareTextModal: IShareTextModal;
+    showLangSelector: boolean;
     mainVersion: string | null;
 }
 
 const defaultTmpSettings = {
     loadingData: false,
-    shareTextModal: null,
+    shareTextModal: {
+        text: '',
+        show: false,
+    },
+    showLangSelector: false,
     mainVersion: null,
 } as TmpSettings;
 

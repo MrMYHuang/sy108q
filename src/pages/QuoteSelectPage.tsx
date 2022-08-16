@@ -3,13 +3,14 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, withIonLifeCycle,
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { shareSocial } from 'ionicons/icons';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
 import { Bookmark } from '../models/Bookmark';
 import Globals from '../Globals';
 import { Settings } from '../models/Settings';
 import { TmpSettings } from '../models/TmpSettings';
 
-interface Props {
+interface Props extends WithTranslation {
   bookmarks: Bookmark[];
   dispatch: Function;
   settings: Settings;
@@ -45,7 +46,7 @@ class _QuotePage extends React.Component<PageProps, State> {
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle className='uiFont'>壹零捌自在語</IonTitle>
+            <IonTitle className='uiFont'>{this.props.t('108WisdomAdages')}</IonTitle>
 
             <IonButton fill="clear" slot='end' onClick={e => {
               Globals.shareByLink(this.props.dispatch, decodeURIComponent(window.location.href));
@@ -65,7 +66,7 @@ class _QuotePage extends React.Component<PageProps, State> {
                   }}>No.&nbsp;</IonInput>
               </div>
               <div style={{textAlign: 'center'}}>
-                <IonButton style={{ fontSize: `${this.props.settings.uiFontSize * 1.5}px` }} fill='outline' shape='round' size='large' onClick={() => {
+                <IonButton className='uiFont' fill='outline' shape='round' size='large' onClick={() => {
                   const quoteId = +this.state.customQuoteId;
                   if (isNaN(quoteId) || 1 > quoteId || quoteId > 108) {
                     this.setState({showToast: true, toastMessage: `請輸入介於1到108之間的數字`});
@@ -73,17 +74,17 @@ class _QuotePage extends React.Component<PageProps, State> {
                   }
                   
                   this.props.history.push(`${Globals.pwaUrl}/quote/quote/${this.state.customQuoteId}`);
-                }}>自選自在語</IonButton>
+                }}>{this.props.t('SelectByNumber')}</IonButton>
               </div>
             </div>
 
             <div className='uiFont'>---------- or ----------</div>
 
             <div style={{ padding: '20px 0px' }}>
-              <IonButton style={{ fontSize: `${this.props.settings.uiFontSize * 1.5}px` }} fill='outline' shape='round' size='large' onClick={() => {
+              <IonButton className='uiFont' fill='outline' shape='round' size='large' onClick={() => {
                 const quoteId = Math.floor(Math.random() * Globals.quotes.length) + 1;
                 this.props.history.push(`${Globals.pwaUrl}/quote/quote/${quoteId}`);
-              }}>隨選自在語</IonButton>
+              }}>{this.props.t('SelectByRandom')}</IonButton>
             </div>
           </div>
 
@@ -112,6 +113,6 @@ const mapStateToProps = (state: any /*, ownProps*/) => {
 
 const QuotePage = withIonLifeCycle(_QuotePage);
 
-export default connect(
+export default withTranslation()(connect(
   mapStateToProps,
-)(QuotePage);
+)(QuotePage));

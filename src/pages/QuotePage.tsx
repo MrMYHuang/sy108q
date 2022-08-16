@@ -3,13 +3,14 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, withIonLifeCycle,
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bookmark, shareSocial } from 'ionicons/icons';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
 import { Bookmark } from '../models/Bookmark';
 import Globals from '../Globals';
 import { Settings } from '../models/Settings';
 import { TmpSettings } from '../models/TmpSettings';
 
-interface Props {
+interface Props extends WithTranslation{
   bookmarks: Bookmark[];
   dispatch: Function;
   settings: Settings;
@@ -86,7 +87,7 @@ class _QuotePage extends React.Component<PageProps, State> {
             key: a.achievemnt,
             val: true,
           });
-          this.setState({ showUnlockToast: true, unlockToastMessage: `解鎖 - 已讀 ${a.unlockThreshold} 則自在語` });
+          this.setState({ showUnlockToast: true, unlockToastMessage: `${this.props.t('Unlock')} - ${this.props.t('Read')} ${a.unlockThreshold} ${this.props.t('wisdomAdages').toLowerCase()}` });
         }
       });
     });
@@ -152,7 +153,7 @@ class _QuotePage extends React.Component<PageProps, State> {
         uuid: +this.props.match.params.id,
       }) as Bookmark,
     });
-    this.setState({ showToast: true, toastMessage: '書籤新增成功！' });
+    this.setState({ showToast: true, toastMessage: this.props.t('NewBookmarkAdded') });
     return;
   }
 
@@ -198,7 +199,7 @@ class _QuotePage extends React.Component<PageProps, State> {
             message={this.state.unlockToastMessage}
             buttons={[
               {
-                text: '關閉',
+                text: this.props.t('Close'),
                 role: 'cancel',
               }
             ]}
@@ -221,6 +222,6 @@ const mapStateToProps = (state: any /*, ownProps*/) => {
 
 const QuotePage = withIonLifeCycle(_QuotePage);
 
-export default connect(
+export default withTranslation()(connect(
   mapStateToProps,
-)(QuotePage);
+)(QuotePage));
