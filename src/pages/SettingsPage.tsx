@@ -395,6 +395,7 @@ class _SettingsPage extends React.Component<PageProps, StateProps> {
                 <div>{this.props.t('Author')}: Meng-Yuan Huang</div>
                 <div><a href="mailto:myh@live.com" target="_new">myh@live.com</a></div>
                 <div><a href="https://github.com/MrMYHuang/sy108q" target="_new">{this.props.t('manualAndOpenSource')}</a></div>
+                <div><a href="https://github.com/MrMYHuang/sy108q@copyrights" target="_new">{this.props.t('copyrights')}</a></div>
               </div>
             </IonItem>
           </IonList>

@@ -1,4 +1,4 @@
-import { isPlatform, IonLabel } from '@ionic/react';
+import { isPlatform } from '@ionic/react';
 import axios from 'axios';
 import IndexedDbFuncs from './IndexedDbFuncs';
 
