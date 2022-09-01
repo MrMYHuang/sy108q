@@ -426,7 +426,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.myhpwa.sy108q;
 				PRODUCT_NAME = sy108q;
 				SDKROOT = iphoneos;
@@ -455,7 +455,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.myhpwa.sy108q;
 				PRODUCT_NAME = sy108q;
 				SDKROOT = iphoneos;
