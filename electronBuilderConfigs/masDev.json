@@ -3,7 +3,8 @@
   "extraResources": [
     {
       "from": "./iOS/iOS",
-      "to": "."
+      "to": ".",
+      "filter": ["**/*", "!**/Base.lproj/*"]
     }
   ],
   "mac": {

@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		139F8A3528AB6B0800CC35AB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 139F8A3028AB6B0800CC35AB /* InfoPlist.strings */; };
-		139F8A3628AB6B0800CC35AB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 139F8A3328AB6B0800CC35AB /* InfoPlist.strings */; };
+		1310EB5328C099A8003710E2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1310EB5128C099A8003710E2 /* InfoPlist.strings */; };
 		DBC713B2269D606400FCE5B0 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC713B1269D606400FCE5B0 /* Tests_iOS.swift */; };
 		DBC713BF269D606400FCE5B0 /* sy108qApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC71396269D606300FCE5B0 /* sy108qApp.swift */; };
 		DBC713C1269D606400FCE5B0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC71397269D606300FCE5B0 /* ContentView.swift */; };
@@ -28,13 +27,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		139F8A3128AB6B0800CC35AB /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = InfoPlist.strings; sourceTree = "<group>"; };
-		139F8A3428AB6B0800CC35AB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
+		1310EB5228C099A8003710E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1310EB5428C099B3003710E2 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		1310EB5528C099F2003710E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
 		DBC71396269D606300FCE5B0 /* sy108qApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sy108qApp.swift; sourceTree = "<group>"; };
 		DBC71397269D606300FCE5B0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DBC71398269D606400FCE5B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DBC7139D269D606400FCE5B0 /* sy108q.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sy108q.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		DBC713A0269D606400FCE5B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DBC713AD269D606400FCE5B0 /* Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBC713B1269D606400FCE5B0 /* Tests_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_iOS.swift; sourceTree = "<group>"; };
 		DBC713B3269D606400FCE5B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -63,22 +62,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		139F8A2F28AB6B0800CC35AB /* zh-Hant.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				139F8A3028AB6B0800CC35AB /* InfoPlist.strings */,
-			);
-			path = "zh-Hant.lproj";
-			sourceTree = "<group>";
-		};
-		139F8A3228AB6B0800CC35AB /* en.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				139F8A3328AB6B0800CC35AB /* InfoPlist.strings */,
-			);
-			path = en.lproj;
-			sourceTree = "<group>";
-		};
 		DBBD2A75269F1F42005363B8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,9 +105,8 @@
 		DBC7139F269D606400FCE5B0 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				139F8A3228AB6B0800CC35AB /* en.lproj */,
-				139F8A2F28AB6B0800CC35AB /* zh-Hant.lproj */,
-				DBC713A0269D606400FCE5B0 /* Info.plist */,
+				1310EB5128C099A8003710E2 /* InfoPlist.strings */,
+				1310EB5028C09970003710E2 /* Info.plist */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -235,8 +217,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DBC713C3269D606400FCE5B0 /* Assets.xcassets in Resources */,
-				139F8A3628AB6B0800CC35AB /* InfoPlist.strings in Resources */,
-				139F8A3528AB6B0800CC35AB /* InfoPlist.strings in Resources */,
+				1310EB5328C099A8003710E2 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,18 +260,19 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		139F8A3028AB6B0800CC35AB /* InfoPlist.strings */ = {
+		1310EB5028C09970003710E2 /* Info.plist */ = {
 			isa = PBXVariantGroup;
 			children = (
-				139F8A3128AB6B0800CC35AB /* zh-Hant */,
+				1310EB5528C099F2003710E2 /* Base */,
 			);
-			name = InfoPlist.strings;
+			name = Info.plist;
 			sourceTree = "<group>";
 		};
-		139F8A3328AB6B0800CC35AB /* InfoPlist.strings */ = {
+		1310EB5128C099A8003710E2 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				139F8A3428AB6B0800CC35AB /* en */,
+				1310EB5228C099A8003710E2 /* en */,
+				1310EB5428C099B3003710E2 /* zh-Hant */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -419,14 +401,14 @@
 				DEVELOPMENT_TEAM = XU8X8HU5ST;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = iOS/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/iOS/Base.lproj/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.word-games";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.myhpwa.sy108q;
 				PRODUCT_NAME = sy108q;
 				SDKROOT = iphoneos;
@@ -448,14 +430,14 @@
 				DEVELOPMENT_TEAM = XU8X8HU5ST;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = iOS/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/iOS/Base.lproj/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.word-games";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.myhpwa.sy108q;
 				PRODUCT_NAME = sy108q;
 				SDKROOT = iphoneos;
