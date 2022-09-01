@@ -3,14 +3,14 @@
   "homepage": "/sy108q",
   "productName": "壹零捌自在語",
   "pwaVersion": "2.0.0",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "license": "MIT",
   "keywords": [
-    "遊戲",
-    "猜成語",
-    "成語猜猜",
+    "108 Wisdom Adages",
+    "108自在語",
     "壹零捌自在語",
-    "成語詞典"
+    "聖嚴師父",
+    "Master Sheng-Yen"
   ],
   "description": "",
   "repository": "https://github.com/MrMYHuang/sy108q",

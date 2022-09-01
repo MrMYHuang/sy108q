@@ -1,5 +1,11 @@
 {
   "extends": "electronBuilderConfigs/common.json",
+  "extraResources": [
+    {
+      "from": "./iOS/iOS",
+      "to": "."
+    }
+  ],
   "mac": {
     "type": "development",
     "identity": null
