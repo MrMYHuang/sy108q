@@ -1,3 +1,8 @@
+Note: The following license applys to this repo, but excluding these two files:
+https://github.com/MrMYHuang/sy108q/blob/main/src/sy108q-zh.json
+https://github.com/MrMYHuang/sy108q/blob/main/src/sy108q-en.json
+(Please consult syf@shengyen.org.tw for authorization for them!)
+
 MIT License
 
 Copyright (c) 2022 Meng-Yuan Huang
