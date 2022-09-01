@@ -151,6 +151,7 @@ async function createWindow() {
   });
 
   ipcMain.handle('toMainV3', async (ev, args) => {
+    console.log(args);
     switch (args.event) {
       case 'changeLanguage':
         i18n.changeLanguage(args.lang);

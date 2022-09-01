@@ -29,7 +29,7 @@
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "build-electron": "tsc -b tsconfigElectron.json",
-    "build-electron-store": "tsc -b tsconfigElectron.json && mv buildElectron/mainStore.js buildElectron/main.js",
+    "build-electron-store": "tsc -b tsconfigElectron.json",
     "start-electron": "npm run build-electron && electron .",
     "dist-snap": "mkdir -p dist && snapcraft snap --use-lxd -o dist",
     "publish-snap": "snapcraft upload --release=stable dist/*.snap",

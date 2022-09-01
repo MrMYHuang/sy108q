@@ -110,6 +110,10 @@ https://myhpwa.github.io/sy108q
 </a>
 
 ## <a id='history'>版本歷史</a>
+* PWA 2.0.0:
+  * [新增] 支援英文版 108 自在語。
+  * [新增] 支援英文 UI。
+
 * PWA 1.4.2:
   * [修正] Chrome 瀏覽器開啟自動中翻英後，app 功能異常的 bug。
 
