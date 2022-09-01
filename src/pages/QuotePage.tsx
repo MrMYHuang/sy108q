@@ -2,7 +2,7 @@ import React from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, withIonLifeCycle, IonToast, IonButton, IonIcon } from '@ionic/react';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { bookmark, shareSocial } from 'ionicons/icons';
+import { bookmark, language, shareSocial } from 'ionicons/icons';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
 import { Bookmark } from '../models/Bookmark';
@@ -10,7 +10,7 @@ import Globals from '../Globals';
 import { Settings } from '../models/Settings';
 import { TmpSettings } from '../models/TmpSettings';
 
-interface Props extends WithTranslation{
+interface Props extends WithTranslation {
   bookmarks: Bookmark[];
   dispatch: Function;
   settings: Settings;
@@ -101,6 +101,14 @@ class _QuotePage extends React.Component<PageProps, State> {
     }).observe(document.getElementById('quote-container')!);
   }
 
+  componentDidUpdate(preProps: PageProps) {
+    if (preProps.settings.language !== this.props.settings.language) {
+      this.setState({quote: this.getQuote()}, () => {
+        this.fitText(this.props.settings.language === 'zh');
+      });
+    }
+  }
+
   getQuote() {
     return Globals.quotes[+this.props.match.params.id - 1];
   }
@@ -161,6 +169,17 @@ class _QuotePage extends React.Component<PageProps, State> {
         <IonHeader>
           <IonToolbar>
             <IonTitle className='uiFont'>No. {+this.props.match.params.id}</IonTitle>
+
+            <IonButton fill="clear" slot='end' onClick={e => {
+              const lang = this.props.settings.language === 'zh' ? 'en' : 'zh';
+              this.props.dispatch({
+                type: "SET_KEY_VAL",
+                key: 'language',
+                val: lang,
+              });
+            }}>
+              <IonIcon icon={language} slot='icon-only' />
+            </IonButton>
 
             <IonButton fill="clear" slot='end' onClick={e => {
               this.addBookmarkHandler();

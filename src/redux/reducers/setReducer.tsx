@@ -3,11 +3,6 @@ import { Bookmark } from '../../models/Bookmark';
 import { defaultSettings, Settings } from '../../models/Settings';
 import i18n from '../../i18n';
 
-i18n.on('languageChanged', (lang: string) => {
-  Globals.quotes = require(`../../sy108q-${lang}.json`) as string[];
-  Globals.electronBackendApi?.invoke('toMainV3', { event: 'changeLanguage', lang });
-});
-
 function updateUi(newSettings: Settings) {
   while (document.body.classList.length > 0) {
     document.body.classList.remove(document.body.classList.item(0)!);
@@ -45,6 +40,8 @@ export default function reducer(state = { ...defaultSettings }, action: any) {
         }
         case 'language':
           i18n.changeLanguage(val);
+          Globals.quotes = require(`../../sy108q-${val}.json`) as string[];
+          Globals.electronBackendApi?.invoke('toMainV3', { event: 'changeLanguage', val });
           break;
       }
       localStorage.setItem(Globals.storeFile, JSON.stringify({ settings: newSettings }));
