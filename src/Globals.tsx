@@ -23,7 +23,12 @@ function twKaiFontNeedUpgrade() {
   return +(localStorage.getItem('twKaiFontVersion') ?? 1) < IndexedDbFuncs.twKaiFontVersion;
 }
 
+let isTwKaiFontsLoaded = false;
 async function loadTwKaiFonts(progressCallback: Function | null = null, win: Window = window) {
+  if (isTwKaiFontsLoaded) {
+    return Promise.resolve();
+  }
+
   let forceUpdate = false;
   if (twKaiFontNeedUpgrade()) {
     localStorage.setItem('twKaiFontVersion', IndexedDbFuncs.twKaiFontVersion + "");
@@ -44,6 +49,7 @@ async function loadTwKaiFonts(progressCallback: Function | null = null, win: Win
     finishCount += 1;
     progressCallback && progressCallback(finishCount / twKaiFonts.length);
   }
+  isTwKaiFontsLoaded = true;
   return Promise.resolve();
 }
 

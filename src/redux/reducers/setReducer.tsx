@@ -9,6 +9,13 @@ function updateUi(newSettings: Settings) {
   }
   document.body.classList.toggle(`theme${newSettings.theme}`, true);
   Globals.updateCssVars(newSettings);
+  updateLanguage(newSettings.language)
+}
+
+function updateLanguage(lang: string) {
+  i18n.changeLanguage(lang);
+  Globals.quotes = require(`../../sy108q-${lang}.json`) as string[];
+  Globals.electronBackendApi?.invoke('toMainV3', { event: 'changeLanguage', lang });
 }
 
 // Used to store settings. They will be saved to file.
@@ -33,15 +40,17 @@ export default function reducer(state = { ...defaultSettings }, action: any) {
           document.body.classList.toggle(`theme${val}`, true);
           break;
         }
-        case 'useFontKai':
+        case 'useFontKai': {
+          Globals.loadTwKaiFonts();
+          Globals.updateCssVars(newSettings);
+          break;
+        }
         case 'uiFontSize': {
           Globals.updateCssVars(newSettings);
           break;
         }
         case 'language':
-          i18n.changeLanguage(val);
-          Globals.quotes = require(`../../sy108q-${val}.json`) as string[];
-          Globals.electronBackendApi?.invoke('toMainV3', { event: 'changeLanguage', val });
+          updateLanguage(val);
           break;
       }
       localStorage.setItem(Globals.storeFile, JSON.stringify({ settings: newSettings }));
@@ -80,7 +89,7 @@ export default function reducer(state = { ...defaultSettings }, action: any) {
           (newSettings as any)[key] = (defaultSettings as any)[key];
         }
       });
-      i18n.changeLanguage(newSettings.language);
+      updateUi(newSettings);
   }
   return newSettings;
 }
