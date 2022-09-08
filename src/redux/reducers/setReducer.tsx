@@ -9,11 +9,14 @@ function updateUi(newSettings: Settings) {
   }
   document.body.classList.toggle(`theme${newSettings.theme}`, true);
   Globals.updateCssVars(newSettings);
-  updateLanguage(newSettings.language)
+  updateLanguage(newSettings.language, newSettings.useFontKai)
 }
 
-function updateLanguage(lang: string) {
+function updateLanguage(lang: string, useFontKai: boolean) {
   i18n.changeLanguage(lang);
+  if (lang === 'zh' && useFontKai) {
+    Globals.loadTwKaiFonts();
+  }
   Globals.quotes = require(`../../sy108q-${lang}.json`) as string[];
   Globals.electronBackendApi?.invoke('toMainV3', { event: 'changeLanguage', lang });
 }
@@ -50,7 +53,7 @@ export default function reducer(state = { ...defaultSettings }, action: any) {
           break;
         }
         case 'language':
-          updateLanguage(val);
+          updateLanguage(val, newSettings.useFontKai);
           break;
       }
       localStorage.setItem(Globals.storeFile, JSON.stringify({ settings: newSettings }));
