@@ -36,7 +36,7 @@
 * Android 9 + Chrome
 * macOS 12 + Chrome
 * iPad Pro 3rd + Apple App Store app
-* iPhone 8 +  + Apple App Store app
+* iPhone 8 + Apple App Store app
 * Ubuntu Linux 22 + Snap Store app
 
 非上述環境仍可嘗試使用此 app。若有<a href='#knownIssues'>已知問題</a>未描述的問題，可用<a href='#report'>異常回報</a>功能。
