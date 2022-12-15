@@ -110,6 +110,9 @@ https://myhpwa.github.io/sy108q
 </a>
 
 ## <a id='history'>版本歷史</a>
+* PWA 2.0.1:
+  * [修正] 錯字。
+
 * PWA 2.0.0:
   * [修正] 設定頁版權連結。
 
