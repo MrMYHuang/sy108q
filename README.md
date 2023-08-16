@@ -110,6 +110,9 @@ https://myhpwa.github.io/sy108q
 </a>
 
 ## <a id='history'>版本歷史</a>
+* PWA 2.0.2:
+  * [修正] Chrome 115 下拉選單顯示異常。
+
 * PWA 2.0.1:
   * [修正] 錯字。
 
